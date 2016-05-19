@@ -2,6 +2,7 @@
 
 # Get all blocked IPs
 BLOCKDB="blocked.ips"
+#BLOCKDB="connected-SMTP.log"
 
 #Drop only http requests
 IPS=$(grep -Ev "^#" $BLOCKDB)
