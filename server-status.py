@@ -20,7 +20,7 @@ def graph(size, title, values):
         value = round(float(row[0][:-1]))*size/100
         for i in range(size):
             if i < value:
-                print (YELLOW + "▉", end="")
+                print (YELLOW + "█", end="")
             else:
                 print (YELLOW + "░", end="")
 
