@@ -36,7 +36,7 @@ def deviceUsage(resource, device=None):
     elif resource == "storage":
         cmd = "df -h | awk '/"+device+"/ {printf (\"%5s %6s\\n\", $5, $6)}'"
     elif resource == "memory":
-        cmd = "free -h |tail -n2 | awk  '{value=$3*100/$2; printf (\"%2.2f%% %s \\n\", value, substr($1, 1, length($1) -1))}'"
+        cmd = "free -h |tail -n2 | awk  '/^[Mem|Swap]/ {value=$3*100/$2; printf (\"%2.2f%% %s \\n\", value, substr($1, 1, length($1) -1))}'"
 
     p = subprocess.Popen(cmd, 
             shell=True, 
