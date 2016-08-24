@@ -105,10 +105,14 @@ def distroDetail(size, title):
 
 
 def main(argv):
-    os.system("clear")
     size = 40
 
     for arg in argv:
+        if arg == "--clear":
+            os.system("clear")
+        if "--size" in arg:
+            size = arg.split("=")
+            size=int(size[1])
         if arg == "--cpu":
             cpu = deviceUsage("CPU")
             graph(size, "CPU", cpu)
