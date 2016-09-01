@@ -3,6 +3,7 @@
 import subprocess
 import os
 import sys
+import argparse
 
 HEADER = '\033[1;37m'
 BLUE = '\033[94m'
@@ -14,7 +15,7 @@ BOLD = '\033[1m'
 UNDERLINE = '\033[4m'
 
 def setTitle(title, size):
-    title = " "[:]*5 + title + " "[:]*5 
+    title = " "[:]*5 + title + " "[:]*5
     print (HEADER + title.center(size+20, "#"))
 
 def graph(size, title, values):
@@ -24,9 +25,9 @@ def graph(size, title, values):
         value = round(float(row[0][:-1]))*size/100
         for i in range(size):
             if i < value:
-                print (YELLOW + "█", end="")
+                print (YELLOW + "#", end="")
             else:
-                print (YELLOW + "░", end="")
+                print (YELLOW + " ", end="")
 
         print (NORMAL + " " + row[0].rjust(6) + " - " + row[1])
 
@@ -38,9 +39,9 @@ def deviceUsage(resource, device=None):
     elif resource == "memory":
         cmd = "free | awk  '/^[Mem|Swap]/ {value=$3*100/$2; printf (\"%2.2f%% %s \\n\", value, substr($1, 1, length($1) -1))}'"
 
-    p = subprocess.Popen(cmd, 
-            shell=True, 
-            stdout=subprocess.PIPE, 
+    p = subprocess.Popen(cmd,
+            shell=True,
+            stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             universal_newlines = True)
 
@@ -57,9 +58,9 @@ def lastLogins(size, title, n = 3):
 
     setTitle(title, size)
     cmd = "last | head -n"+str(n)+" | awk '{name=substr($0,0,7); data=substr($0,40,16);status=substr($0,59,5); printf (\"%s|%s|%s\\n\", name, data, status )}' "
-    p = subprocess.Popen(cmd, 
-            shell=True, 
-            stdout=subprocess.PIPE, 
+    p = subprocess.Popen(cmd,
+            shell=True,
+            stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             universal_newlines = True)
 
@@ -81,9 +82,9 @@ def distroDetail(size, title):
 
     result = []
     for i in cmds:
-        p = subprocess.Popen(i, 
-                shell=True, 
-                stdout=subprocess.PIPE, 
+        p = subprocess.Popen(i,
+                shell=True,
+                stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
                 universal_newlines = True)
 
@@ -105,8 +106,33 @@ def distroDetail(size, title):
 
 
 def main(argv):
-    size = 40
 
+    parser = argparse.ArgumentParser(description='Create a dashboard server status.',
+            usage='%(prog)s [options]')
+    parser.add_argument('--version', action='version', version='%(prog)s 0.1a')
+    parser.add_argument('--clear', default=None,
+                       help='clear the screen (default: false)')
+    parser.add_argument('--size', default=40, type=int,
+                       help='size of dashboard (default: 40)')
+    parser.add_argument('--cpu', 
+                       help='show cpu info')
+    parser.add_argument('--memory',
+                       help='show memory info')
+    parser.add_argument('--storage', nargs='?', default='sda', 
+                       help='show storage info (default: sda)')
+    parser.add_argument('--lastlogins', nargs='?', default=3, type=int,
+                       help='show last logged users')
+    parser.add_argument('--distroDetail',
+                       help='show distro info')
+    args = parser.parse_args()
+
+    print(vars(args))
+    for arg in vars(args):
+            print(arg, getattr(args, arg))
+
+
+
+"""
     for arg in argv:
         if arg == "--clear":
             os.system("clear")
@@ -132,6 +158,7 @@ def main(argv):
         elif arg == "--distroDetail":
             distroDetail(size, "Distro Details")
             print()
+            """
 
 if __name__ == "__main__":
     main(sys.argv)
