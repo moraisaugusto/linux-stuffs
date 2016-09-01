@@ -27,7 +27,7 @@ def graph(size, title, values):
             if i < value:
                 print (YELLOW + "#", end="")
             else:
-                print (YELLOW + " ", end="")
+                print (YELLOW + "=", end="")
 
         print (NORMAL + " " + row[0].rjust(6) + " - " + row[1])
 
@@ -104,35 +104,9 @@ def distroDetail(size, title):
 
     print (formatedDetail)
 
-
 def main(argv):
+    size = 40
 
-    parser = argparse.ArgumentParser(description='Create a dashboard server status.',
-            usage='%(prog)s [options]')
-    parser.add_argument('--version', action='version', version='%(prog)s 0.1a')
-    parser.add_argument('--clear', default=None,
-                       help='clear the screen (default: false)')
-    parser.add_argument('--size', default=40, type=int,
-                       help='size of dashboard (default: 40)')
-    parser.add_argument('--cpu', 
-                       help='show cpu info')
-    parser.add_argument('--memory',
-                       help='show memory info')
-    parser.add_argument('--storage', nargs='?', default='sda', 
-                       help='show storage info (default: sda)')
-    parser.add_argument('--lastlogins', nargs='?', default=3, type=int,
-                       help='show last logged users')
-    parser.add_argument('--distroDetail',
-                       help='show distro info')
-    args = parser.parse_args()
-
-    print(vars(args))
-    for arg in vars(args):
-            print(arg, getattr(args, arg))
-
-
-
-"""
     for arg in argv:
         if arg == "--clear":
             os.system("clear")
@@ -158,7 +132,6 @@ def main(argv):
         elif arg == "--distroDetail":
             distroDetail(size, "Distro Details")
             print()
-            """
 
 if __name__ == "__main__":
     main(sys.argv)
