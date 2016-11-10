@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 # Script to show basic info from linux machine
 # Copyright (C) 2016 Augusto Morais <aflavio at gmail.com>
 # Adapted from xero
@@ -41,7 +41,6 @@ kernel=`uname -r`
 pkgs=`dpkg --get-selections | grep -v deinstall|  wc -l`
 uptime=`uptime -p | awk '{data=substr($0,4,40);printf (data)}'`
 
-
 # greets
 printf " \e[0m  Welcome to \e[34m$host\n \e[0m \tConfigured by: \e[34m$user\n"
 printf " \e[0m\n"
@@ -63,19 +62,19 @@ ram=`free | awk '/Mem:/ {print int($3/$2 * 100.0)}'`
 printf "   \e[0;36m%-10s \e[1;36m%-5s %-25s \n" " ram" "$ram%" `draw $ram 15`
 
 # temperature
-temp=`sensors | awk '/Core\ 0/ {gsub(/\+/,"",$3); gsub(/\..+/,"",$3)    ; print $3}'`
-case 1 in
-  $(($temp <= 50)))
-    color='34'
-    ;;
-  $(($temp >= 75)))
-    color='31'
-    ;;
-  *)
-    color='36'
-    ;;
-esac
-printf "   \e[0;${color}m%-10s \e[1;${color}m%-5s %-25s \n\n" "temp" "$temp°c " `draw $temp 15 $color`
+#temp=`sensors | awk '/Core\ 0/ {gsub(/\+/,"",$3); gsub(/\..+/,"",$3)    ; print $3}'`
+#case 1 in
+#  $(($temp <= 50)))
+#    color='34'
+#    ;;
+#  $(($temp >= 75)))
+#    color='31'
+#    ;;
+#  *)
+#    color='36'
+#    ;;
+#esac
+#printf "   \e[0;${color}m%-10s \e[1;${color}m%-5s %-25s \n\n" "temp" "$temp°c " `draw $temp 15 $color`
 
 # storage
 IFS=$'\n'
@@ -87,5 +86,6 @@ for s in $(df -h | awk '/sda/ {printf ("%5s %6s\n", $5, $6)}'); do
    device=$(echo $s | awk '{print $2}')
    printf "  \e[0;36m%-11s \e[1;36m%-5s %-25s \n" " $device" "$usage%" `draw $usage 15`
 done
-printf "\n"
+printf "\n\e[0m"
+
 
