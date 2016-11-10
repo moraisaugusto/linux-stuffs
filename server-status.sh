@@ -61,6 +61,10 @@ printf "   \e[0;36m%-10s \e[1;36m%-5s %-25s \n" " cpu" "$c_lvl%" `draw $c_lvl 15
 ram=`free | awk '/Mem:/ {print int($3/$2 * 100.0)}'`
 printf "   \e[0;36m%-10s \e[1;36m%-5s %-25s \n" " ram" "$ram%" `draw $ram 15`
 
+# swap
+swap=`free | awk '/Swap:/ {print int($3/$2 * 100.0)}'`
+printf "   \e[0;36m%-10s \e[1;36m%-5s %-25s \n" " swap" "$swap%" `draw $swap 15`
+
 # temperature
 #temp=`sensors | awk '/Core\ 0/ {gsub(/\+/,"",$3); gsub(/\..+/,"",$3)    ; print $3}'`
 #case 1 in
