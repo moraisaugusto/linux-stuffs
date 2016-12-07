@@ -107,6 +107,18 @@ def distroDetail(size, title):
 def main(argv):
     size = 40
 
+    if len(argv) == 1:
+        cpu = deviceUsage("CPU")
+        graph(size, "CPU", cpu)
+        print()
+        memory=deviceUsage("memory")
+        graph(size, "Memory", memory)
+        print()
+        lastLogins(size, "Last Logins", 3)
+        print()
+        distroDetail(size, "Distro Details")
+        print()
+
     for arg in argv:
         if arg == "--clear":
             os.system("clear")
