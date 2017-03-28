@@ -6,3 +6,6 @@ Script for linux server that automate somethings
  
  ![alt tag](https://raw.githubusercontent.com/aflavio/linux-stuffs/master/server-status.png)
 
+### dotfiles
+
+these dotfiles if for server environment
